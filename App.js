@@ -12,42 +12,42 @@ import Group from './src/screens/Group';
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
-    // <Group />
+    <Group />
     // <Home />
-    <NavigationContainer>
-      <AuthProvider>
-        <Stack.Navigator initialRouteName='Login'>
-          <Stack.Screen
-            name='Register'
-            component={Register}
-            options={{ headerShown: false }}
-          />
+    // <NavigationContainer>
+    //   <AuthProvider>
+    //     <Stack.Navigator initialRouteName='Login'>
+    //       <Stack.Screen
+    //         name='Register'
+    //         component={Register}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Login'
-            component={Login}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Login'
+    //         component={Login}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Home'
-            component={Home}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Home'
+    //         component={Home}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='UserAvatar'
-            component={UserAvatar}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='UserAvatar'
+    //         component={UserAvatar}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Group'
-            component={Group}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </AuthProvider>
-    </NavigationContainer>
+    //       <Stack.Screen
+    //         name='Group'
+    //         component={Group}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </Stack.Navigator>
+    //   </AuthProvider>
+    // </NavigationContainer>
   );
 }
