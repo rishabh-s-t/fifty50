@@ -1,0 +1,11 @@
+0 - food
+1 - default
+2 - bill
+3 - rent
+4 - travel
+
+0 - #0396FF
+1 - #EE6B8D
+2 - #7E8EAA
+3 - #F2E86D
+4 - #5BDA8C
