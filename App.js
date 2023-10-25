@@ -8,11 +8,11 @@ import Register from './src/screens/auth/Register';
 import UserAvatar from './src/screens/UserAvatar';
 import Home from './src/screens/Home';
 import Group from './src/screens/Group';
+import Bill from './src/screens/Bill';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
-    // <Group />
     // <Home />
     <NavigationContainer>
       <AuthProvider>
@@ -44,6 +44,12 @@ export default function App() {
           <Stack.Screen
             name='Group'
             component={Group}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='Bill'
+            component={Bill}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

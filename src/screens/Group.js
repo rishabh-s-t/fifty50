@@ -51,12 +51,16 @@ export default Group = ({ navigation }) => {
     }
   };
 
+  const moveToHome = () => {
+    navigation.navigate('Home');
+  };
+
   return (
     <SafeAreaView>
       {/* Top Bar */}
       <View style={styles.topBarContainer}>
         {/* Back Button */}
-        <TouchableOpacity style={[styles.topBarItem]}>
+        <TouchableOpacity style={[styles.topBarItem]} onPress={moveToHome}>
           <View>
             <Text style={{ fontSize: 18 }}>{'<'}</Text>
           </View>
