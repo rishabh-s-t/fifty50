@@ -118,6 +118,7 @@ export default Home = ({ navigation }) => {
               <Text style={styles.fieldTitle}>Select Members</Text>
               <ScrollView>
                 {/* User Component */}
+                {/* Make the user component dynamic by passing an array of objects as a prop and rendering them. TODO today */}
                 <UserComponent
                   username={'Rishabh Singh Tomar'}
                   userPhoneNumber={'+91-6266505214'}
