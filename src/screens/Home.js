@@ -38,6 +38,8 @@ export default Home = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* Add Bill Modal */}
+      {/* Change it into a screen instead of a modal */}
+      {/* Refactor the code to be more dynamic */}
       <Modal
         isVisible={billModal}
         onBackdropPress={() => setBillModal(false)}
