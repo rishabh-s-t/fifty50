@@ -7,13 +7,14 @@ import Login from './src/screens/auth/Login';
 import Register from './src/screens/auth/Register';
 import UserAvatar from './src/screens/UserAvatar';
 import Home from './src/screens/Home';
-import Group from './src/screens/Group';
+import CreateGroup from './src/screens/CreateGroup';
 import Bill from './src/screens/Bill';
+import AddUserToGroup from './src/screens/AddUserToGroup';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
-    <Group />
+    <AddUserToGroup />
     // <NavigationContainer>
     //   <AuthProvider>
     //     <Stack.Navigator initialRouteName='Login'>
@@ -42,8 +43,8 @@ export default function App() {
     //       />
 
     //       <Stack.Screen
-    //         name='Group'
-    //         component={Group}
+    //         name='CreateGroup'
+    //         component={CreateGroup}
     //         options={{ headerShown: false }}
     //       />
 

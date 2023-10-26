@@ -17,7 +17,7 @@ import { testUsers } from '../config';
 
 export default Home = ({ navigation }) => {
   const moveToGroup = () => {
-    navigation.navigate('Group');
+    navigation.navigate('CreateGroup');
   };
 
   const moveToBill = () => {

@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { groupAvatarMap, ip } from '../config';
 import axios from 'axios';
 
-export default Group = ({ navigation }) => {
+export default CreateGroup = ({ navigation }) => {
   const [groupName, setGroupName] = useState('');
   const [groupAvatar, setGroupAvatar] = useState(0);
   const [groupDescription, setGroupDescription] = useState('');
