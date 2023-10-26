@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 
 const GroupType = ({ setGroupAvatar, avatarsMap }) => {
+  const [active, setActive] = useState(0);
+
   return (
     <View style={styles.billTypeWrap}>
       {avatarsMap.map((color, index) => (
@@ -9,10 +11,16 @@ const GroupType = ({ setGroupAvatar, avatarsMap }) => {
           key={index}
           onPress={() => {
             setGroupAvatar(index);
-            console.log(index);
+            setActive(index); // Update the active state
           }}
         >
-          <View style={[styles.groupIcon, { backgroundColor: color }]}></View>
+          <View
+            style={[
+              styles.groupIcon,
+              { backgroundColor: color },
+              index === active && styles.activeGroupIcon, // Apply border if active
+            ]}
+          ></View>
         </TouchableOpacity>
       ))}
     </View>
@@ -31,5 +39,10 @@ const styles = StyleSheet.create({
     height: 55,
     width: 55,
     borderRadius: 20,
+  },
+  activeGroupIcon: {
+    borderWidth: 4,
+    borderColor: '#000000',
+    opacity: 0.6,
   },
 });

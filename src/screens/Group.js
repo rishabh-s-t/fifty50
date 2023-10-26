@@ -37,8 +37,9 @@ export default Group = ({ navigation }) => {
           groupDescription: groupDescription,
         })
         .then(async (response) => {
-          const inviteID = response.data;
+          alert('Group created successfully!');
 
+          const inviteID = response.data;
           //await AsyncStorage.setItem('@groups', JSON.stringify(data));
           navigation.navigate('Home');
           console.log(JSON.stringify(inviteID.invitation));
@@ -104,7 +105,7 @@ export default Group = ({ navigation }) => {
       </View>
 
       {/* Confirm Button */}
-      <View style={{ marginLeft: '10%', marginTop: '80%' }}>
+      <View style={{ marginLeft: '10%', marginTop: '60%' }}>
         <Button buttonText={'confirm'} handleSubmit={saveGroup} />
       </View>
     </SafeAreaView>
