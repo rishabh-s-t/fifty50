@@ -4,7 +4,6 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList,
   SafeAreaView,
 } from 'react-native';
 import React, { useState } from 'react';

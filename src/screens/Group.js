@@ -38,7 +38,7 @@ export default Group = ({ navigation }) => {
           const inviteID = response.data;
 
           //await AsyncStorage.setItem('@groups', JSON.stringify(data));
-
+          navigation.navigate('Home');
           console.log(JSON.stringify(inviteID.invitation));
         })
         .catch((err) => {
