@@ -16,6 +16,7 @@ import axios from 'axios';
 export default Group = ({ navigation }) => {
   const [groupName, setGroupName] = useState('');
   const [groupAvatar, setGroupAvatar] = useState(0);
+  const [groupDescription, setGroupDescription] = useState('');
 
   const saveGroup = async () => {
     try {
@@ -33,6 +34,7 @@ export default Group = ({ navigation }) => {
           groupAvatar: groupAvatar,
           usersInvolved: [loginData.user._id],
           owner: loginData.user._id,
+          groupDescription: groupDescription,
         })
         .then(async (response) => {
           const inviteID = response.data;
@@ -79,6 +81,16 @@ export default Group = ({ navigation }) => {
           placeholderName={'group name here'}
           value={groupName}
           setValue={setGroupName}
+        />
+      </View>
+
+      {/* Group Description */}
+      <View style={{ marginLeft: '10%' }}>
+        <InputBox
+          inputTitle={'Group Description'}
+          placeholderName={'group description here (optional)'}
+          value={groupDescription}
+          setValue={setGroupDescription}
         />
       </View>
 

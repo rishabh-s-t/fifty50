@@ -13,47 +13,47 @@ import Bill from './src/screens/Bill';
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
-    // <Home />
-    <NavigationContainer>
-      <AuthProvider>
-        <Stack.Navigator initialRouteName='Login'>
-          <Stack.Screen
-            name='Register'
-            component={Register}
-            options={{ headerShown: false }}
-          />
+    <Group />
+    // <NavigationContainer>
+    //   <AuthProvider>
+    //     <Stack.Navigator initialRouteName='Login'>
+    //       <Stack.Screen
+    //         name='Register'
+    //         component={Register}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Login'
-            component={Login}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Login'
+    //         component={Login}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Home'
-            component={Home}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Home'
+    //         component={Home}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='UserAvatar'
-            component={UserAvatar}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='UserAvatar'
+    //         component={UserAvatar}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Group'
-            component={Group}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Group'
+    //         component={Group}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Bill'
-            component={Bill}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </AuthProvider>
-    </NavigationContainer>
+    //       <Stack.Screen
+    //         name='Bill'
+    //         component={Bill}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </Stack.Navigator>
+    //   </AuthProvider>
+    // </NavigationContainer>
   );
 }
