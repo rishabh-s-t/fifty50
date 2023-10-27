@@ -62,12 +62,6 @@ export default Login = ({ navigation }) => {
     }
   };
 
-  // const getLcoalStorageData = async () => {
-  //     let data = await AsyncStorage.getItem("@auth");
-  //     console.log("Local Storage ==> ", data);
-  // };
-  // getLcoalStorageData();
-
   return (
     <View style={styles.container}>
       {/* Illustration */}

@@ -92,6 +92,7 @@ export default CreateGroup = ({ navigation }) => {
           placeholderName={'group description here (optional)'}
           value={groupDescription}
           setValue={setGroupDescription}
+          maxLength={64}
         />
       </View>
 

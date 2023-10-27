@@ -10,15 +10,17 @@ import TopBar from '../components/TopBar';
 import InputBox from '../components/forms/InputBox';
 import axios from 'axios';
 import { ip } from '../config';
+import DisplayGroup from '../components/DisplayGroup';
+import { getAuthFromLocalStorage } from '../services/getAuth';
 
 export default AddUserToGroup = ({ navigation }) => {
   // useEffect(() => {
   //   console.log('state = ' + members);
   // }, [members]);
-
-  const getGroupURL = `http://${ip}/api/v1/group/`;
+  const groupURL = `http://${ip}/api/v1/group/`;
 
   const [inviteId, setInviteId] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
 
   //group data
   const [avatar, setAvatar] = useState();
@@ -40,7 +42,7 @@ export default AddUserToGroup = ({ navigation }) => {
       }
 
       await axios
-        .get(getGroupURL + inviteId)
+        .get(groupURL + inviteId.toLowerCase())
         .then((res) => {
           setAvatar(res.data.avatar);
           setDate(res.data.date);
@@ -51,14 +53,54 @@ export default AddUserToGroup = ({ navigation }) => {
           setMembers(membersArray);
           setName(res.data.name);
           setOwner(res.data.owner);
+
+          setIsVisible(true);
         })
         .catch((err) => {
-          alert('some error occured');
+          alert('user already in the group');
           console.log(err);
         });
     } catch (err) {
+      alert('user already exists');
+      navigation.navigate('Home');
+      return;
+    }
+  };
+
+  const addToGroup = async () => {
+    try {
+      let user = await getAuthFromLocalStorage();
+      user = JSON.parse(user);
+
+      if (!user) return;
+
+      const userId = user.user._id;
+
+      const postUrl = `${groupURL}${inviteId.toLowerCase()}/member/${userId}`;
+
+      axios
+        .post(postUrl)
+        .then((res) => {
+          setAvatar();
+          setDate();
+          setDescription();
+          setMembers();
+          setName();
+          setOwner();
+          setIsVisible(false);
+
+          alert('group joined successfully!');
+          navigation.navigate('Home');
+        })
+        .catch((err) => {
+          alert('user already exists in the group');
+          console.log(err);
+        });
+
+      return;
+    } catch (error) {
       alert('error occured. retry after a while');
-      console.log(err);
+      console.log(error);
       return;
     }
   };
@@ -88,13 +130,18 @@ export default AddUserToGroup = ({ navigation }) => {
         </View>
       </View>
 
-      <View style={{ marginLeft: '10%', marginTop: '20%' }}>
-        <Text>{avatar}</Text>
-        <Text>{date}</Text>
-        <Text>{description}</Text>
-        <Text>{members}</Text>
-        <Text>{name}</Text>
-        <Text>{owner}</Text>
+      <View style={{ marginLeft: '10%', marginTop: '4%' }}>
+        <DisplayGroup
+          visible={isVisible}
+          avatar={avatar}
+          date={date}
+          description={description}
+          members={members}
+          name={name}
+          owner={owner}
+          bills={[]}
+          handlePress={addToGroup}
+        />
       </View>
     </SafeAreaView>
   );

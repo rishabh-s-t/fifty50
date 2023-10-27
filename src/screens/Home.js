@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import React, { useState } from 'react';
-import CreateGroup from '../components/CreateGroup';
+import CreateGroup from '../screens/CreateGroup';
 import InputBox from '../components/forms/InputBox';
 import Button from '../components/Button';
 import UserComponent from '../components/UserComponent';
@@ -16,7 +16,7 @@ import Transaction from '../components/Transaction';
 import { testUsers } from '../config';
 
 export default Home = ({ navigation }) => {
-  const moveToGroup = () => {
+  const moveToCreateGroup = () => {
     navigation.navigate('CreateGroup');
   };
 
@@ -24,12 +24,22 @@ export default Home = ({ navigation }) => {
     navigation.navigate('Bill');
   };
 
+  const moveToJoinGroup = () => {
+    navigation.navigate('JoinGroup');
+  };
+
   return (
     // <CreateGroup />
     <SafeAreaView>
       <View style={{ marginLeft: '10%' }}>
-        <TouchableOpacity onPress={moveToGroup}>
-          <Text>Move to group screen</Text>
+        <TouchableOpacity onPress={moveToCreateGroup}>
+          <Text>Create Group</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ marginLeft: '10%', marginTop: '10%' }}>
+        <TouchableOpacity onPress={moveToJoinGroup}>
+          <Text>Join group</Text>
         </TouchableOpacity>
       </View>
       {/* Add Bill Split */}
