@@ -29,7 +29,7 @@ export default UserComponent = ({ users }) => {
                   {user.userName}
                 </Text>
                 <Text style={{ fontSize: 12, color: '#666666' }}>
-                  {user.userPhoneNumber}
+                  +91-{user.userPhoneNumber}
                 </Text>
               </View>
             </View>

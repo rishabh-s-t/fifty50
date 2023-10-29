@@ -8,59 +8,60 @@ import Register from './src/screens/auth/Register';
 import UserAvatar from './src/screens/UserAvatar';
 import Home from './src/screens/Home';
 import CreateGroup from './src/screens/CreateGroup';
-import Bill from './src/screens/Bill';
 import AddUserToGroup from './src/screens/AddUserToGroup';
+import AddExpense from './src/screens/AddExpense.js';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
+    <AddExpense />
     // <AddUserToGroup />
-    <NavigationContainer>
-      <AuthProvider>
-        <Stack.Navigator initialRouteName='Login'>
-          <Stack.Screen
-            name='Register'
-            component={Register}
-            options={{ headerShown: false }}
-          />
+    // <NavigationContainer>
+    //   <AuthProvider>
+    //     <Stack.Navigator initialRouteName='Login'>
+    //       <Stack.Screen
+    //         name='Register'
+    //         component={Register}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Login'
-            component={Login}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Login'
+    //         component={Login}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Home'
-            component={Home}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Home'
+    //         component={Home}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='UserAvatar'
-            component={UserAvatar}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='UserAvatar'
+    //         component={UserAvatar}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='CreateGroup'
-            component={CreateGroup}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='CreateGroup'
+    //         component={CreateGroup}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='Bill'
-            component={Bill}
-            options={{ headerShown: false }}
-          />
+    //       <Stack.Screen
+    //         name='Bill'
+    //         component={AddExpense}
+    //         options={{ headerShown: false }}
+    //       />
 
-          <Stack.Screen
-            name='JoinGroup'
-            component={AddUserToGroup}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </AuthProvider>
-    </NavigationContainer>
+    //       <Stack.Screen
+    //         name='JoinGroup'
+    //         component={AddUserToGroup}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </Stack.Navigator>
+    //   </AuthProvider>
+    // </NavigationContainer>
   );
 }
