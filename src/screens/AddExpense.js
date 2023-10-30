@@ -4,22 +4,26 @@ import {
     View,
     TouchableOpacity,
     Image,
-    SafeAreaView,
+    SafeAreaView
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { expenseAvatar, ip, testUsers } from '../config';
 import UserComponent from '../components/UserComponent';
 import axios from 'axios';
+import ExpenseOwnerDropdown from '../components/ExpenseOwnerDropdown';
 
 export default AddExpense = ({ navigation }) => {
+    const [selectedUserIds, setSelectedUserIds] = useState([]);
     const [selectedExpenseAvatar, setSelectedExpenseAvatar] = useState(1)
-    const [groupInviteId, setGroupInviteId] = useState('60dc7');
+    const [groupInviteId, setGroupInviteId] = useState('976bf');
     const [members, setMembers] = useState([]);
     const [memberDetails, setMemberDetails] = useState([]);
     const [groupId, setGroupId] = useState('');
     const [billName, setBillName] = useState('');
     const [billAmount, setBillAmount] = useState('');
     const [billAvatar, setBillAvatar] = useState(1);
+    const [paidBy, setPaidBy] = useState('');
+    const [billDescription, setBillDescription] = useState('');
 
     useEffect(() => {
         const getGroupDetails = async () => {
@@ -34,6 +38,10 @@ export default AddExpense = ({ navigation }) => {
             }
         }
 
+        getGroupDetails()
+    }, [])
+
+    useEffect(() => {
         const getGroupUsers = async () => {
             try {
                 if (!members) {
@@ -62,12 +70,58 @@ export default AddExpense = ({ navigation }) => {
             }
         }
 
-        getGroupDetails()
         getGroupUsers()
-    }, [])
+    }, [members])
+
+    const saveExpense = async () => {
+        if (!billName) alert('bill name is required!')
+        if (!paidBy) alert('please select who paid for the bill?')
+        if (!billAmount) alert('enter a valid amount')
+        if (!selectedUserIds || selectedUserIds.length < 2) alert('at least 2 members are required for the split')
+
+        let payload = {
+            title: billName,
+            group: groupId,
+            paidBy: paidBy,
+            description: billDescription,
+            amount: Number(billAmount),
+            avatar: billAvatar,
+            members: selectedUserIds,
+        }
+
+        let postExpenseEndpoint = `http://${ip}/api/v1/expense`
+
+        console.log(`endpoint - ${postExpenseEndpoint}\npayload  ${JSON.stringify(payload)}`)
+
+        await axios
+            .post(postExpenseEndpoint, payload)
+            .then((response) => {
+                let expense = response.data
+                console.log(expense)
+                navigation.navigate('Home')
+                return
+            })
+            .catch((err) => {
+                console.log(err)
+                navigation.navigate("Home")
+            })
+        // try {
+        //     const expense = await axios.post(postExpenseEndpoint, payload)
+        //     alert(expense.message)
+        //     console.log(expense.expense)
+        // } catch (error) {
+        //     alert('ran into an internal error')
+        //     navigation.navigate('Home')
+        //     return;
+        // }
+    }
 
     const moveToHome = () => {
         navigation.navigate('Home');
+    };
+
+    const handleSelectionChange = (newSelectedUserIds) => {
+        setSelectedUserIds(newSelectedUserIds);
     };
 
     return (
@@ -104,6 +158,14 @@ export default AddExpense = ({ navigation }) => {
                     setValue={setBillAmount}
                 />
 
+                {/* Select bill description*/}
+                {/* <InputBox
+                    inputTitle={'Bill Description'}
+                    placeholderName={'what\'s it for?'}
+                    value={billDescription}
+                    setValue={setBillDescription}
+                /> */}
+
                 {/* Select bill type */}
                 <Text style={styles.fieldTitle}>Bill Type</Text>
                 <View style={styles.billTypeWrap}>
@@ -113,25 +175,26 @@ export default AddExpense = ({ navigation }) => {
                         }}>
                             <Image
                                 source={avatar.src}
-                                style={[styles.billType, index === billAvatar && styles.selectedExpense,]}
+                                style={[styles.billType, index === billAvatar && styles.selectedExpense]}
                             />
                         </TouchableOpacity>
                     ))}
                 </View>
 
                 <View>
-                    <InputBox inputTitle={'Who Paid?*'} />
+                    <Text style={styles.fieldTitle}>Who Paid?*</Text>
+                    <ExpenseOwnerDropdown users={memberDetails} setPaidBy={setPaidBy} />
                 </View>
 
                 {/* Select users */}
                 <View style={styles.selectUsers}>
                     <Text style={styles.fieldTitle}>Select Members</Text>
-                    <UserComponent users={memberDetails} />
+                    <UserComponent users={memberDetails} selectedUserIds={selectedUserIds} onSelectionChange={handleSelectionChange} />
                 </View>
 
                 {/* Confirm Button */}
                 <View style={{ marginTop: '4%' }}>
-                    <Button buttonText={'save'} />
+                    <Button buttonText={'save'} handleSubmit={saveExpense} />
                 </View>
             </View>
         </SafeAreaView>
@@ -190,6 +253,7 @@ const styles = StyleSheet.create({
     selectUsers: {
         height: 250,
         width: '90%',
+        marginTop: '5%',
         marginBottom: '2%',
         backgroundColor: '#ECECEC',
         borderRadius: 20,

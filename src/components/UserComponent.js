@@ -7,37 +7,50 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Checkbox from 'expo-checkbox';
 import { avatarArray } from '../config';
 
-export default UserComponent = ({ users }) => {
+export default UserComponent = ({ users, selectedUserIds, onSelectionChange }) => {
+  const handleUserSelect = (userId) => {
+    let updatedSelection = []
+
+    if (selectedUserIds.includes(userId)) {
+      updatedSelection = selectedUserIds.filter((id) => id !== userId)
+    } else {
+      updatedSelection = [...selectedUserIds, userId]
+    }
+
+    onSelectionChange(updatedSelection);
+  };
   //users is an  array of objects
   return (
     <ScrollView>
       <View>
         {users.map((user, key) => (
-          <View key={key} style={styles.selectMembers}>
-            <View style={styles.selectMembersItems}>
-              <Image
-                source={avatarArray[user.userAvatar].src}
-                style={styles.memberImage}
-              />
+          <TouchableOpacity key={key} onPress={() => handleUserSelect(user._id)}>
+            <View style={styles.selectMembers}>
+              <View style={styles.selectMembersItems}>
+                <Image
+                  source={avatarArray[user.userAvatar].src}
+                  style={styles.memberImage}
+                />
 
-              <View style={{ marginLeft: '5%' }}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                  {user.userName}
-                </Text>
-                <Text style={{ fontSize: 12, color: '#666666' }}>
-                  +91-{user.userPhoneNumber}
-                </Text>
+                <View style={{ marginLeft: '5%' }}>
+                  <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+                    {user.userName}
+                  </Text>
+                  <Text style={{ fontSize: 12, color: '#666666' }}>
+                    +91-{user.userPhoneNumber}
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.checkboxWrap}>
+                <Checkbox value={selectedUserIds.includes(user._id)} />
               </View>
             </View>
-
-            <View style={styles.checkboxWrap}>
-              <Checkbox value={false} />
-            </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
