@@ -1,4 +1,4 @@
-const ip = '192.168.1.13:8080';
+const ip = '192.168.69.26:8080';
 
 const groupAvatarMap = ['#0396FF', '#EE6B8D', '#7E8EAA', '#F2E86D', '#5BDA8C'];
 
@@ -56,29 +56,35 @@ const avatarArray = [
   },
 ];
 
-const expenseAvatarPath = `../assets/icons/bills`
+const expenseAvatarPath = `../assets/icons/bills`;
 
-const expenseAvatar = [{
-  id: 0,
-  name: 'food',
-  src: require(`${expenseAvatarPath}/food.png`)
-}, {
-  id: 1,
-  name: 'default',
-  src: require(`${expenseAvatarPath}/default.png`)
-}, {
-  id: 2,
-  name: 'bill',
-  src: require(`${expenseAvatarPath}/bill.png`)
-}, {
-  id: 3,
-  name: 'rent',
-  src: require(`${expenseAvatarPath}/rent.png`)
-}, {
-  id: 4,
-  name: 'travel',
-  src: require(`${expenseAvatarPath}/travel.png`)
-}]
+const expenseAvatar = [
+  {
+    id: 0,
+    name: 'food',
+    src: require(`${expenseAvatarPath}/food.png`),
+  },
+  {
+    id: 1,
+    name: 'default',
+    src: require(`${expenseAvatarPath}/default.png`),
+  },
+  {
+    id: 2,
+    name: 'bill',
+    src: require(`${expenseAvatarPath}/bill.png`),
+  },
+  {
+    id: 3,
+    name: 'rent',
+    src: require(`${expenseAvatarPath}/rent.png`),
+  },
+  {
+    id: 4,
+    name: 'travel',
+    src: require(`${expenseAvatarPath}/travel.png`),
+  },
+];
 
 const testUsers = [
   {

@@ -5,17 +5,46 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  FlatList,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CreateGroup from '../screens/CreateGroup';
 import InputBox from '../components/forms/InputBox';
 import Button from '../components/Button';
 import UserComponent from '../components/UserComponent';
 import Transaction from '../components/Transaction';
-import { testUsers } from '../config';
+import { avatarArray, testUsers } from '../config';
+import Modal from 'react-native-modal';
+
+import { Ionicons } from '@expo/vector-icons';
+import { getAuthFromLocalStorage } from '../services/getAuth';
+
+const windowHeight = Dimensions.get('window').height;
+const dynamicMarginTop = windowHeight * 0.25;
 
 export default Home = ({ navigation }) => {
+  const [userDetails, setUserDetails] = useState();
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
+  useEffect(() => {
+    console.log(JSON.stringify(userDetails));
+  }, [userDetails]);
+
+  const getUserDetails = async () => {
+    let user = await getAuthFromLocalStorage();
+    user = JSON.parse(user);
+    setUserDetails(user);
+  };
+
+  const moveToUserDetails = () => {
+    navigation.navigate('UserDetails', { userDetails });
+  };
+
   const moveToCreateGroup = () => {
     navigation.navigate('CreateGroup');
   };
@@ -28,94 +57,90 @@ export default Home = ({ navigation }) => {
     navigation.navigate('JoinGroup');
   };
 
+  if (!userDetails) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color='#0000ff' />
+      </View>
+    );
+  }
+
   return (
-    // <CreateGroup />
     <SafeAreaView>
-      <View style={{ marginLeft: '10%' }}>
-        <TouchableOpacity onPress={moveToCreateGroup}>
-          <Text>Create Group</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView>
+        {/* Top bar - User Account Touchable (later) |
+                      Home Screen |
+                      Add Group | */}
+        <View style={styles.topBarContainer}>
+          <TouchableOpacity
+            style={styles.topBarColumn1}
+            onPress={moveToUserDetails}
+          >
+            <Image
+              source={avatarArray[userDetails.user.userAvatar].src}
+              style={styles.userAvatar}
+            />
+          </TouchableOpacity>
 
-      <View style={{ marginLeft: '10%', marginTop: '10%' }}>
-        <TouchableOpacity onPress={moveToJoinGroup}>
-          <Text>Join group</Text>
-        </TouchableOpacity>
-      </View>
-      {/* Add Bill Split */}
-      <TouchableOpacity onPress={moveToBill}>
-        <Text style={{ margin: 50 }}>Open Add Bill Modal</Text>
-      </TouchableOpacity>
+          <View style={styles.topBarColumn2}>
+            <Text style={[styles.appTitle]}>Fifty50</Text>
+          </View>
 
-      {/* Transaction Component */}
-      <View style={{ justifyContent: 'center', alignItems: 'center', gap: 20 }}>
-        <Transaction
-          billAvatar={0}
-          billTitle={'Maggie'}
-          billAmount={1000}
-          billStatus={0}
-          splitParticipants={4}
-          splitAmount={250}
-        />
-        <Transaction
-          billAvatar={1}
-          billTitle={'Shopping'}
-          billAmount={4000}
-          billStatus={1}
-          splitParticipants={4}
-          splitAmount={1000}
-        />
-        <Transaction
-          billAvatar={3}
-          billTitle={'Hotel'}
-          billAmount={10000}
-          billStatus={2}
-          splitParticipants={4}
-          splitAmount={2500}
-        />
-      </View>
+          <TouchableOpacity
+            style={[styles.topBarColumn3]}
+            onPress={moveToCreateGroup}
+          >
+            <View style={styles.addGroupButton}>
+              <Ionicons name='add' size={24} color='black' />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/*  */}
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  topBarContainer: {
     flex: 1,
+    flexDirection: 'row',
+    height: 60,
   },
-  modalContainer: {
-    height: '90%',
-  },
-  center: {
-    marginLeft: '9%',
-    marginTop: '10%',
+  topBarColumn1: {
+    alignItems: 'center',
     justifyContent: 'center',
+    width: '15%',
+    paddingLeft: 20,
   },
-  titleWrap: {
+  topBarColumn2: {
     justifyContent: 'center',
     alignItems: 'center',
+    width: '70%',
   },
-  billSplitModal: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    marginTop: '10%',
+  topBarColumn3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingRight: 20,
   },
-  fieldTitle: {
+  userAvatar: {
+    height: 48,
+    width: 48,
+    borderRadius: 25,
+  },
+  appTitle: {
     fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: 5,
-    marginBottom: 10,
+    fontSize: 36,
+    color: '#0396FF',
   },
-  memberScrollView: {
-    height: '50%',
-  },
-  billTypeWrap: {
-    flexDirection: 'row',
-    marginBottom: '5%',
-  },
-  billType: {
-    borderRadius: 20,
-    height: 47,
-    width: 47,
-    marginRight: '4%',
+  addGroupButton: {
+    backgroundColor: '#ECECEC',
+    height: 48,
+    width: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
   },
 });

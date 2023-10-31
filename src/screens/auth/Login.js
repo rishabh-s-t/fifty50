@@ -42,15 +42,14 @@ export default Login = ({ navigation }) => {
 
           await AsyncStorage.setItem('@auth', JSON.stringify(data));
 
-          console.log(data.user.showAvatar);
+          setEmailID('');
+          setPassword('');
 
           if (data.user.showAvatar === true) {
             navigation.navigate('UserAvatar');
           } else {
             navigation.navigate('Home');
           }
-
-          console.warn(data.message);
         })
         .catch((err) => {
           alert('Invalid credentials');
