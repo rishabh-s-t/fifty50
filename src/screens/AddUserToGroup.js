@@ -17,7 +17,7 @@ export default AddUserToGroup = ({ navigation }) => {
   // useEffect(() => {
   //   console.log('state = ' + members);
   // }, [members]);
-  const groupURL = `http://${ip}/api/v1/group/`;
+  const groupURL = `http://${ip}/api/v1/group/invite/`;
 
   const [inviteId, setInviteId] = useState('');
   const [isVisible, setIsVisible] = useState(false);

@@ -15,30 +15,52 @@ import InputBox from '../components/forms/InputBox';
 import Button from '../components/Button';
 import UserComponent from '../components/UserComponent';
 import Transaction from '../components/Transaction';
-import { avatarArray, testUsers } from '../config';
+import { avatarArray, ip, testUsers } from '../config';
 import Modal from 'react-native-modal';
 
 import { Ionicons } from '@expo/vector-icons';
 import { getAuthFromLocalStorage } from '../services/getAuth';
+import axios from 'axios';
+import DisplayAllGroups from '../components/DisplayAllGroups';
 
 const windowHeight = Dimensions.get('window').height;
 const dynamicMarginTop = windowHeight * 0.25;
 
 export default Home = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
+  const [groupDetails, setGroupDetails] = useState();
 
   useEffect(() => {
     getUserDetails();
   }, []);
 
   useEffect(() => {
-    console.log(JSON.stringify(userDetails));
+    if (userDetails) getAllUserGroups();
   }, [userDetails]);
+
+  useEffect(() => {
+    // console.log(JSON.stringify(groupDetails, null, 2));
+  }, [groupDetails]);
 
   const getUserDetails = async () => {
     let user = await getAuthFromLocalStorage();
     user = JSON.parse(user);
     setUserDetails(user);
+  };
+
+  const getAllUserGroups = async () => {
+    const getGroupsEndpoint = `http://${ip}/api/v1/group/groups`;
+
+    try {
+      let groups = await axios.get(getGroupsEndpoint, {
+        params: {
+          groupIds: userDetails.user.groupsInvolved.join(','),
+        },
+      });
+      setGroupDetails(groups.data.groups);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const moveToUserDetails = () => {
@@ -96,7 +118,70 @@ export default Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/*  */}
+        {/* To Pay/Receive */}
+        <View style={styles.myGroupsContainer}>
+          <View style={{ marginLeft: '5%' }}>
+            <Text style={styles.myGroupsTitle}>TODO</Text>
+          </View>
+
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+            }}
+          >
+            <Text style={styles.viewGroupsTitle}>Todo</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.userExpenseContainer}></View>
+        </View>
+
+        {/* Display groups */}
+        <View style={styles.myGroupsContainer}>
+          <View style={{ marginLeft: '5%' }}>
+            <Text style={styles.myGroupsTitle}>My Groups</Text>
+          </View>
+
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+            }}
+          >
+            <Text style={styles.viewGroupsTitle}>{`View All >>`}</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Groups are displayed here */}
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <ScrollView style={styles.groupsContainer} horizontal={true}>
+            <DisplayAllGroups groups={groupDetails} />
+          </ScrollView>
+        </View>
+
+        <View style={styles.myGroupsContainer}>
+          <View style={{ marginLeft: '5%' }}>
+            <Text style={styles.myGroupsTitle}>Groups to pay</Text>
+          </View>
+
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+            }}
+          >
+            <Text style={styles.viewGroupsTitle}>{`View All >>`}</Text>
+          </TouchableOpacity>
+        </View>
+        {/* Expenses are displayed here */}
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.expenseContainer}></View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -142,5 +227,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
+  },
+  userExpenseContainer: {
+    backgroundColor: '#aaaaff',
+    height: 65,
+  },
+  myGroupsContainer: {
+    flexDirection: 'row',
+    marginTop: 12,
+  },
+  myGroupsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  viewGroupsTitle: {
+    marginRight: '10%',
+    color: '#808080',
+  },
+  groupsContainer: {
+    marginTop: 20,
+    height: 185,
+    width: '90%',
+  },
+  expenseContainer: {
+    marginTop: 15,
+    backgroundColor: '#aaffff',
+    height: 300,
+    width: '90%',
   },
 });
