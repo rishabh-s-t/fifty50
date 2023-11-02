@@ -6,12 +6,18 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default DisplayAllGroups = ({ groups }) => {
+export default DisplayAllGroups = ({ groups, navigation }) => {
   const [numberOfBills, setNumberOfBills] = useState();
   const [groupName, setGroupName] = useState();
+  const [activeGroup, setActiveGroup] = useState();
+
+  const moveToActiveGroup = async () => {
+    setActiveGroup(groups[index]._id);
+    navigation.navigate('ActiveGroupScreen');
+  };
 
   if (!groups) {
     return (
@@ -20,12 +26,10 @@ export default DisplayAllGroups = ({ groups }) => {
       </View>
     );
   }
-
-  console.log(JSON.stringify(groups, null, 2));
   return (
     <View style={{ flexDirection: 'row', gap: 5 }}>
       {groups.map((group, index) => (
-        <TouchableOpacity key={index}>
+        <TouchableOpacity key={index} onPress={moveToActiveGroup}>
           <View style={styles.groupsContainer}>
             <View style={styles.groupContainer}>
               <View style={styles.groupMetaContainer}>

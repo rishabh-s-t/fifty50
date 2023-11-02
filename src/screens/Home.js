@@ -39,7 +39,7 @@ export default Home = ({ navigation }) => {
   }, [userDetails]);
 
   useEffect(() => {
-    // console.log(JSON.stringify(groupDetails, null, 2));
+    console.log(JSON.stringify(groupDetails, null, 2));
   }, [groupDetails]);
 
   const getUserDetails = async () => {
