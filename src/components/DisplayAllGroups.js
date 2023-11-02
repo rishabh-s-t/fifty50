@@ -9,15 +9,12 @@ import {
 import React, { useEffect, useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default DisplayAllGroups = ({ groups, navigation }) => {
-  const [numberOfBills, setNumberOfBills] = useState();
-  const [groupName, setGroupName] = useState();
-  const [activeGroup, setActiveGroup] = useState();
+export default DisplayAllGroups = ({ navigation, groups }) => {
+  const [activeGroupId, setActiveGroupId] = useState();
 
-  const moveToActiveGroup = async () => {
-    setActiveGroup(groups[index]._id);
-    navigation.navigate('ActiveGroupScreen');
-  };
+  useEffect(() => {
+
+  }, [activeGroupId])
 
   if (!groups) {
     return (
@@ -29,15 +26,18 @@ export default DisplayAllGroups = ({ groups, navigation }) => {
   return (
     <View style={{ flexDirection: 'row', gap: 5 }}>
       {groups.map((group, index) => (
-        <TouchableOpacity key={index} onPress={moveToActiveGroup}>
+        <TouchableOpacity key={index} onPress={() => {
+          setActiveGroupId(groups[index]._id);
+          navigation.navigate('ActiveGroup', { activeGroup: groups[index]._id })
+        }}>
           <View style={styles.groupsContainer}>
             <View style={styles.groupContainer}>
               <View style={styles.groupMetaContainer}>
                 <Text style={styles.groupTitle}>
-                  {!group.groupName ? 'loading..' : group.groupName}
+                  {group.groupName}
                 </Text>
                 <Text style={{ fontSize: 16, color: '#0396FF' }}>
-                  {!group.numberOfBills ? 0 : group.numberOfBills} Bills
+                  {group.numberOfBills} Bills
                 </Text>
 
                 <View

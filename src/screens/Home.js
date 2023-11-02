@@ -10,11 +10,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import CreateGroup from '../screens/CreateGroup';
-import InputBox from '../components/forms/InputBox';
-import Button from '../components/Button';
-import UserComponent from '../components/UserComponent';
-import Transaction from '../components/Transaction';
 import { avatarArray, ip, testUsers } from '../config';
 import Modal from 'react-native-modal';
 
@@ -35,11 +30,13 @@ export default Home = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (userDetails) getAllUserGroups();
+    if (userDetails) {
+      getAllUserGroups();
+    }
   }, [userDetails]);
 
   useEffect(() => {
-    console.log(JSON.stringify(groupDetails, null, 2));
+    // console.log(JSON.stringify(groupDetails, null, 2));
   }, [groupDetails]);
 
   const getUserDetails = async () => {
@@ -88,7 +85,7 @@ export default Home = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginTop: 45, }}>
       <ScrollView>
         {/* Top bar - User Account Touchable (later) |
                       Home Screen |
@@ -159,7 +156,7 @@ export default Home = ({ navigation }) => {
         {/* Groups are displayed here */}
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <ScrollView style={styles.groupsContainer} horizontal={true}>
-            <DisplayAllGroups groups={groupDetails} />
+            <DisplayAllGroups navigation={navigation} groups={groupDetails} />
           </ScrollView>
         </View>
 

@@ -11,6 +11,7 @@ import CreateGroup from './src/screens/CreateGroup';
 import AddUserToGroup from './src/screens/AddUserToGroup';
 import AddExpense from './src/screens/AddExpense.js';
 import UserDetails from './src/screens/UserDetails.js';
+import ActiveGroup from './src/screens/ActiveGroup';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -65,6 +66,12 @@ export default function App() {
           <Stack.Screen
             name='UserDetails'
             component={UserDetails}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='ActiveGroup'
+            component={ActiveGroup}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
