@@ -12,66 +12,32 @@ import UserComponent from '../components/UserComponent';
 import axios from 'axios';
 import ExpenseOwnerDropdown from '../components/ExpenseOwnerDropdown';
 
-export default AddExpense = ({ navigation }) => {
+export default AddExpense = ({ navigation, route }) => {
     const [selectedUserIds, setSelectedUserIds] = useState([]);
     const [selectedExpenseAvatar, setSelectedExpenseAvatar] = useState(1)
-    const [groupInviteId, setGroupInviteId] = useState('976bf');
-    const [members, setMembers] = useState([]);
+
+    const [groupInviteId, setGroupInviteId] = useState();
     const [memberDetails, setMemberDetails] = useState([]);
     const [groupId, setGroupId] = useState('');
+
     const [billName, setBillName] = useState('');
     const [billAmount, setBillAmount] = useState('');
     const [billAvatar, setBillAvatar] = useState(1);
     const [paidBy, setPaidBy] = useState('');
     const [billDescription, setBillDescription] = useState('');
 
-    useEffect(() => {
-        const getGroupDetails = async () => {
-            try {
-                const group = await axios.get(`http://${ip}/api/v1/group/invite/${groupInviteId}`)
-                setGroupId(group.data.id)
-                setMembers(group.data.members)
-            } catch (error) {
-                console.log(error)
-                navigation.navigate('Home')
-                return
-            }
-        }
+    const groupInput = route.params.groupDetails
+    // console.log(`group input -> ${JSON.stringify(groupInput, null, 2)}`)
 
-        getGroupDetails()
+    useEffect(() => {
+        setMemberDetails(groupInput.usersInvolved)
+        setGroupInviteId(groupInput.inviteID)
+        setGroupId(groupInput._id)
     }, [])
 
     useEffect(() => {
-        const getGroupUsers = async () => {
-            try {
-                if (!members) {
-                    console.log('no members')
-                    alert('No members in group! ERROR')
-                    navigation.navigate('Home');
-                    return
-                }
-
-                const getUserEndPoint = `http://${ip}/api/v1/user`
-                const userObjects = []
-
-                for (const userId of members) {
-                    try {
-                        const response = await axios.get(`${getUserEndPoint}/${userId}`)
-                        userObjects.push(response.data)
-                    } catch (error) {
-                        console.error(`Failed to fetch user data for user ID: ${userId}`)
-                    }
-                }
-
-                setMemberDetails(userObjects)
-            } catch (error) {
-                console.log(error)
-                navigation.navigate('Home')
-            }
-        }
-
-        getGroupUsers()
-    }, [members])
+        // console.log(JSON.stringify(memberDetails, null, 2))
+    }, [memberDetails])
 
     const saveExpense = async () => {
         if (!billName) alert('bill name is required!')

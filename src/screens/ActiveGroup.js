@@ -44,7 +44,7 @@ export default ActiveGroup = ({ navigation, route }) => {
     };
 
     const moveToAddExpense = () => {
-        navigation.navigate('AddExpense')
+        navigation.navigate('AddExpense', { groupDetails })
     }
 
     useEffect(() => {
