@@ -16,8 +16,6 @@ import ActiveGroup from './src/screens/ActiveGroup';
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
-    // // <Home />
-    // <AddUserToGroup />
     <NavigationContainer>
       <AuthProvider>
         <Stack.Navigator initialRouteName='Login'>
@@ -72,6 +70,12 @@ export default function App() {
           <Stack.Screen
             name='ActiveGroup'
             component={ActiveGroup}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='AddExpense'
+            component={AddExpense}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

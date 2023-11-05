@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ip } from '../config';
 
-export default UserAvatar = (props) => {
+export default UserAvatar = ({ navigation }) => {
   // Current Avatar ID
   const [avatarID, setAvatarID] = useState(0);
 
@@ -88,9 +88,17 @@ export default UserAvatar = (props) => {
         showAvatar: false,
         userAvatar: avatarID,
       })
-      .then((response) => {
-        alert(response.data.message);
-        props.navigation.navigate('Home');
+      .then(async (response) => {
+        const apiData = response.data;
+
+        console.log('Received Data:', apiData);
+
+        const modifiedData = { ...loginData, user: { ...loginData.user, userAvatar: avatarID } }
+        console.log('Modified Data:', modifiedData);
+
+        await AsyncStorage.setItem('@auth', JSON.stringify(modifiedData));
+        alert(apiData.message);
+        navigation.navigate('Home');
       })
       .catch((error) => {
         alert(error.message);

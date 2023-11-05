@@ -28,7 +28,7 @@ export default AddExpense = ({ navigation }) => {
     useEffect(() => {
         const getGroupDetails = async () => {
             try {
-                const group = await axios.get(`http://${ip}/api/v1/group/${groupInviteId}`)
+                const group = await axios.get(`http://${ip}/api/v1/group/invite/${groupInviteId}`)
                 setGroupId(group.data.id)
                 setMembers(group.data.members)
             } catch (error) {
@@ -125,7 +125,7 @@ export default AddExpense = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={{ marginTop: 30 }}>
+        <SafeAreaView style={{ marginTop: 45 }}>
             {/* Top Bar */}
             <View style={styles.topBarContainer}>
                 {/* Back Button */}

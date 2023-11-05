@@ -30,7 +30,7 @@ const UserDetails = ({ navigation, route }) => {
       <View style={styles.topBarContainer}>
         <TouchableOpacity style={styles.topBarColumn1}>
           <Image
-            source={avatarArray[userDetails.user.userAvatar].src}
+            source={avatarArray[userDetails.userAvatar].src}
             style={styles.userAvatar}
           />
         </TouchableOpacity>

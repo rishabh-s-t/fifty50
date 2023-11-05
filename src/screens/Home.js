@@ -13,6 +13,8 @@ import React, { useState, useEffect } from 'react';
 import { avatarArray, ip, testUsers } from '../config';
 import Modal from 'react-native-modal';
 
+import { useIsFocused } from '@react-navigation/native';
+
 import { Ionicons } from '@expo/vector-icons';
 import { getAuthFromLocalStorage } from '../services/getAuth';
 import axios from 'axios';
@@ -24,6 +26,26 @@ const dynamicMarginTop = windowHeight * 0.25;
 export default Home = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
   const [groupDetails, setGroupDetails] = useState();
+  const [userAvatarState, setUserAvatarState] = useState(0);
+  const [showModal, setShowModal] = useState(false)
+
+  const getUserDetails = async () => {
+    let user = await getAuthFromLocalStorage();
+    user = JSON.parse(user);
+    const userId = user.user._id
+
+    const getUserDetailsURL = `http://${ip}/api/v1/user/${userId}`
+
+    const updatedUserDetails = await axios.get(getUserDetailsURL)
+    console.log(JSON.stringify(updatedUserDetails.data, null, 2))
+    setUserDetails(updatedUserDetails.data);
+  };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getUserDetails()
+  }, [isFocused]);
 
   useEffect(() => {
     getUserDetails();
@@ -32,6 +54,7 @@ export default Home = ({ navigation }) => {
   useEffect(() => {
     if (userDetails) {
       getAllUserGroups();
+      if (userDetails.userAvatar) setUserAvatarState(userDetails.userAvatar)
     }
   }, [userDetails]);
 
@@ -39,19 +62,13 @@ export default Home = ({ navigation }) => {
     // console.log(JSON.stringify(groupDetails, null, 2));
   }, [groupDetails]);
 
-  const getUserDetails = async () => {
-    let user = await getAuthFromLocalStorage();
-    user = JSON.parse(user);
-    setUserDetails(user);
-  };
-
   const getAllUserGroups = async () => {
     const getGroupsEndpoint = `http://${ip}/api/v1/group/groups`;
 
     try {
       let groups = await axios.get(getGroupsEndpoint, {
         params: {
-          groupIds: userDetails.user.groupsInvolved.join(','),
+          groupIds: userDetails.groupsInvolved.join(','),
         },
       });
       setGroupDetails(groups.data.groups);
@@ -76,10 +93,10 @@ export default Home = ({ navigation }) => {
     navigation.navigate('JoinGroup');
   };
 
-  if (!userDetails) {
+  if (!userDetails || !userDetails || !userDetails.userAvatar) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size='large' color='#0000ff' />
+        <ActivityIndicator size='large' color='#0396FF' />
       </View>
     );
   }
@@ -96,7 +113,7 @@ export default Home = ({ navigation }) => {
             onPress={moveToUserDetails}
           >
             <Image
-              source={avatarArray[userDetails.user.userAvatar].src}
+              source={avatarArray[userAvatarState].src}
               style={styles.userAvatar}
             />
           </TouchableOpacity>
@@ -107,7 +124,7 @@ export default Home = ({ navigation }) => {
 
           <TouchableOpacity
             style={[styles.topBarColumn3]}
-            onPress={moveToCreateGroup}
+            onPress={() => setShowModal(true)}
           >
             <View style={styles.addGroupButton}>
               <Ionicons name='add' size={24} color='black' />
@@ -180,6 +197,22 @@ export default Home = ({ navigation }) => {
           <View style={styles.expenseContainer}></View>
         </View>
       </ScrollView>
+
+      <Modal
+        isVisible={showModal}
+        onBackdropPress={() => setShowModal(false)}
+        animationIn={"slideInUp"}
+        animationOut={"slideOutDown"}
+        onBackButtonPress={() => setShowModal(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.button} onPress={moveToCreateGroup}>
+            <Text style={styles.buttonText}>Create Group</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={moveToJoinGroup}>
+            <Text style={styles.buttonText}>Join Group</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -251,5 +284,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#aaffff',
     height: 300,
     width: '90%',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    alignSelf: 'center',
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 12,
+    margin: 10,
+    borderRadius: 20,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
   },
 });

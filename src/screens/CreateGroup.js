@@ -59,7 +59,7 @@ export default CreateGroup = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginTop: 45, }}>
       {/* Top Bar */}
       <View style={styles.topBarContainer}>
         {/* Back Button */}

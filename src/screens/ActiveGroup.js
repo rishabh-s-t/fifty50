@@ -43,6 +43,10 @@ export default ActiveGroup = ({ navigation, route }) => {
         setUserId(user.user._id); // Make sure user._id exists in the data you retrieve
     };
 
+    const moveToAddExpense = () => {
+        navigation.navigate('AddExpense')
+    }
+
     useEffect(() => {
         getGroupDetails();
     }, []);
@@ -84,9 +88,9 @@ export default ActiveGroup = ({ navigation, route }) => {
                             <Text style={styles.groupTitle}>{groupDetails.groupName}</Text>
                         </View>
 
-                        <TouchableOpacity onPress={() => setShowModal(true)}>
+                        <TouchableOpacity onPress={moveToAddExpense}>
                             <View style={styles.moreInfoContainer}>
-                                <Feather name="more-horizontal" size={24} color="black" />
+                                <Ionicons name='add' size={24} color='black' />
                             </View>
                         </TouchableOpacity>
                     </View>

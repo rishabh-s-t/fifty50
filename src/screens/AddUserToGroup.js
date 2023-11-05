@@ -17,7 +17,7 @@ export default AddUserToGroup = ({ navigation }) => {
   // useEffect(() => {
   //   console.log('state = ' + members);
   // }, [members]);
-  const groupURL = `http://${ip}/api/v1/group/invite/`;
+  const groupURL = `http://${ip}/api/v1/group/`;
 
   const [inviteId, setInviteId] = useState('');
   const [isVisible, setIsVisible] = useState(false);
@@ -42,7 +42,7 @@ export default AddUserToGroup = ({ navigation }) => {
       }
 
       await axios
-        .get(groupURL + inviteId.toLowerCase())
+        .get(`${groupURL}/invite/${inviteId.toLowerCase()}`)
         .then((res) => {
           setAvatar(res.data.avatar);
           setDate(res.data.date);
@@ -77,6 +77,7 @@ export default AddUserToGroup = ({ navigation }) => {
       const userId = user.user._id;
 
       const postUrl = `${groupURL}${inviteId.toLowerCase()}/member/${userId}`;
+      console.log(postUrl)
 
       axios
         .post(postUrl)
@@ -106,7 +107,7 @@ export default AddUserToGroup = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginTop: 45 }}>
       <TopBar
         topBarTitle={'add user to group'}
         backButtonHandler={moveToHome}
