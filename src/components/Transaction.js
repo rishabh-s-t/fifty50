@@ -8,6 +8,7 @@ export default Transaction = ({
   billStatus,
   splitParticipants,
   splitAmount,
+  billDescription
 }) => {
   const expenseAvatar = {
     0: require('../../assets/icons/bills/food.png'),
@@ -38,6 +39,7 @@ export default Transaction = ({
         <Image source={expenseAvatar[billAvatar]} style={styles.billType} />
         <View style={{ marginTop: '4%', marginLeft: '4%' }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{billTitle}</Text>
+          <Text>{billDescription}</Text>
           <Text>Total Bill Rs. {billAmount}</Text>
         </View>
 

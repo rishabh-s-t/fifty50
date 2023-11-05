@@ -20,6 +20,7 @@ import { getAuthFromLocalStorage } from '../services/getAuth';
 export default ActiveGroup = ({ navigation, route }) => {
     const activeGroupId = route.params.activeGroup;
     const [showModal, setShowModal] = useState(false)
+    const [groupInviteId, setGroupInviteId] = useState()
     const [groupDetails, setGroupDetails] = useState()
     const [userId, setUserId] = useState()
     const [userExpenses, setUserExpenses] = useState()
@@ -34,6 +35,7 @@ export default ActiveGroup = ({ navigation, route }) => {
     const getGroupDetails = async () => {
         const getGroupEndpoint = `http://${ip}/api/v1/group/expense/${activeGroupId}`
         const groupDetailsResponse = await axios.get(getGroupEndpoint)
+        setGroupInviteId(groupDetailsResponse.data.inviteID)
         setGroupDetails(groupDetailsResponse.data)
     }
 
@@ -93,6 +95,11 @@ export default ActiveGroup = ({ navigation, route }) => {
                                 <Ionicons name='add' size={24} color='black' />
                             </View>
                         </TouchableOpacity>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>Invite your friends: </Text>
+                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#0396FF' }}>{groupInviteId}</Text>
                     </View>
 
                     <View>

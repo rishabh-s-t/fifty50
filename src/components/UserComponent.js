@@ -12,6 +12,8 @@ import Checkbox from 'expo-checkbox';
 import { avatarArray } from '../config';
 
 export default UserComponent = ({ users, selectedUserIds, onSelectionChange }) => {
+  console.log(JSON.stringify(users, null, 2))
+
   const handleUserSelect = (userId) => {
     let updatedSelection = []
 
@@ -20,7 +22,6 @@ export default UserComponent = ({ users, selectedUserIds, onSelectionChange }) =
     } else {
       updatedSelection = [...selectedUserIds, userId]
     }
-
     onSelectionChange(updatedSelection);
   };
   //users is an  array of objects
