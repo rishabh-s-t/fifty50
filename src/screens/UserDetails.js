@@ -16,7 +16,7 @@ const UserDetails = ({ navigation, route }) => {
   const [user, setUser] = useState(userDetails);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   }, [user]);
 
   const logoutUser = async () => {

@@ -77,7 +77,7 @@ export default AddUserToGroup = ({ navigation }) => {
       const userId = user.user._id;
 
       const postUrl = `${groupURL}${inviteId.toLowerCase()}/member/${userId}`;
-      console.log(postUrl)
+      // console.log(postUrl)
 
       axios
         .post(postUrl)

@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
 
             setState({ ...state, user: loginData?.user, token: loginData?.token })
 
-            console.log(state)
+            // console.log(state)
         }
         loadLocalStorageData()
     }, [])

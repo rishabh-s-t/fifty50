@@ -119,7 +119,7 @@ export default ActiveGroup = ({ navigation, route }) => {
     >
       <Tab.Screen
         name='Active'
-        component={() => <ActiveExpense activeExpenses={activeExpenses} />}
+        children={() => <ActiveExpense activeExpenses={activeExpenses} />}
         options={{
           title: 'Active Expenses',
           headerTitleStyle: { color: 'white' }, // Add any additional styles
@@ -127,7 +127,7 @@ export default ActiveGroup = ({ navigation, route }) => {
       />
       <Tab.Screen
         name='Settled'
-        component={() => <SettledExpense settledExpenses={settledExpenses} />}
+        children={() => <SettledExpense settledExpenses={settledExpenses} />}
         options={{
           title: 'Settled Expenses',
           headerTitleStyle: { color: 'white' }, // Add any additional styles

@@ -66,7 +66,7 @@ export default AddExpense = ({ navigation, route }) => {
       .post(postExpenseEndpoint, payload)
       .then((response) => {
         let expense = response.data;
-        console.log(expense);
+        // console.log(expense);
         navigation.goBack();
         return;
       })

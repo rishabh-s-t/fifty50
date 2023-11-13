@@ -91,10 +91,10 @@ export default UserAvatar = ({ navigation }) => {
       .then(async (response) => {
         const apiData = response.data;
 
-        console.log('Received Data:', apiData);
+        // console.log('Received Data:', apiData);
 
         const modifiedData = { ...loginData, user: { ...loginData.user, userAvatar: avatarID } }
-        console.log('Modified Data:', modifiedData);
+        // console.log('Modified Data:', modifiedData);
 
         await AsyncStorage.setItem('@auth', JSON.stringify(modifiedData));
         alert(apiData.message);

@@ -37,7 +37,7 @@ export default Home = ({ navigation }) => {
     const getUserDetailsURL = `http://${ip}/api/v1/user/${userId}`
 
     const updatedUserDetails = await axios.get(getUserDetailsURL)
-    console.log(JSON.stringify(updatedUserDetails.data, null, 2))
+    // console.log(JSON.stringify(updatedUserDetails.data, null, 2))
     setUserDetails(updatedUserDetails.data);
   };
 

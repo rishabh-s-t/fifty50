@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, ScrollView } from 'react-native';
 import React from 'react';
+import ExpenseDisplay from '../components/ExpenseDisplay';
 
 const ActiveExpense = ({ activeExpenses }) => {
-  console.log(`Active Expenses: ${JSON.stringify(activeExpenses, null, 2)}`);
+  // console.log(`type of active expense: ${typeof activeExpenses}`);
+  // console.log(`ActiveExpenses in active expense screen: ${JSON.stringify(activeExpenses, null, 2)}`);
 
   if (!activeExpenses) {
     return (
@@ -13,9 +15,13 @@ const ActiveExpense = ({ activeExpenses }) => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>ActiveExpense</Text>
-    </View>
+    <ScrollView style={{ marginTop: 10, marginBottom: 10 }}>
+      <View style={{ flex: 1, alignItems: 'center', gap: 15 }}>
+        {activeExpenses.map((expense, index) => (
+          <ExpenseDisplay expense={expense} key={index} />
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
