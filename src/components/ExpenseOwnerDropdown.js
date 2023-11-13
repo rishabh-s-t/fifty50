@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#ccc',
-    transform: [{ translateY: 300 }],
+    transform: [{ translateY: -50 }],
   },
   dropdownRowStyle: {
     borderWidth: 1,

@@ -1,141 +1,161 @@
 import {
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    SafeAreaView,
-    ScrollView,
-    Dimensions,
-    ActivityIndicator,
-} from 'react-native'
-import React, { useEffect, useState } from 'react'
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { avatarArray, ip } from '../config';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import Modal from 'react-native-modal'
+import Modal from 'react-native-modal';
 import axios from 'axios';
 import { getAuthFromLocalStorage } from '../services/getAuth';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ActiveExpense from './ActiveExpense';
+import SettledExpense from './SettledExpense';
+import { FontAwesome } from '@expo/vector-icons';
+import CustomHeader from '../components/CustomHeader';
+
+const Tab = createBottomTabNavigator();
 
 export default ActiveGroup = ({ navigation, route }) => {
-    const activeGroupId = route.params.activeGroup;
-    const [showModal, setShowModal] = useState(false)
-    const [groupInviteId, setGroupInviteId] = useState()
-    const [groupDetails, setGroupDetails] = useState()
-    const [userId, setUserId] = useState()
-    const [userExpenses, setUserExpenses] = useState()
+  const activeGroupId = route.params.activeGroup;
+  const [showModal, setShowModal] = useState(false);
+  const [groupInviteId, setGroupInviteId] = useState();
+  const [groupName, setGroupName] = useState();
+  const [groupDetails, setGroupDetails] = useState();
+  const [userId, setUserId] = useState();
+  const [activeExpenses, setActiveExpenses] = useState();
+  const [settledExpenses, setSettledExpenses] = useState();
 
-    const getAllExpensesOfUser = async () => {
-        const getAllExpenseEndpoint = `http://${ip}/api/v1/expense/group/${groupDetails._id}/member/${userId}`
-        console.log(getAllExpenseEndpoint)
-        const expenses = await axios.get(getAllExpenseEndpoint)
-        setUserExpenses(expenses.data)
+  const getAllExpensesOfUser = async () => {
+    const getAllExpenseEndpoint = `http://${ip}/api/v1/expense/group/${groupDetails._id}/member/${userId}`;
+    // console.log(getAllExpenseEndpoint);
+
+    const expenses = await axios.get(getAllExpenseEndpoint);
+    setActiveExpenses(expenses.data.activeExpenses);
+    setSettledExpenses(expenses.data.settledExpenses);
+  };
+
+  const getGroupDetails = async () => {
+    const getGroupEndpoint = `http://${ip}/api/v1/group/expense/${activeGroupId}`;
+    const groupDetailsResponse = await axios.get(getGroupEndpoint);
+
+    setGroupName(groupDetailsResponse.data.groupName);
+    setGroupInviteId(groupDetailsResponse.data.inviteID);
+    setGroupDetails(groupDetailsResponse.data);
+  };
+
+  const getUserId = async () => {
+    let user = await getAuthFromLocalStorage();
+    user = JSON.parse(user);
+    setUserId(user.user._id); // Make sure user._id exists in the data you retrieve
+  };
+
+  const moveToAddExpense = () => {
+    navigation.navigate('AddExpense', { groupDetails });
+  };
+
+  useEffect(() => {
+    getGroupDetails();
+  }, []);
+
+  useEffect(() => {
+    if (groupDetails) {
+      getUserId();
     }
+  }, [groupDetails]);
 
-    const getGroupDetails = async () => {
-        const getGroupEndpoint = `http://${ip}/api/v1/group/expense/${activeGroupId}`
-        const groupDetailsResponse = await axios.get(getGroupEndpoint)
-        setGroupInviteId(groupDetailsResponse.data.inviteID)
-        setGroupDetails(groupDetailsResponse.data)
-    }
+  useEffect(() => {
+    getAllExpensesOfUser();
+  }, [userId]);
 
-    const getUserId = async () => {
-        let user = await getAuthFromLocalStorage();
-        user = JSON.parse(user);
-        setUserId(user.user._id); // Make sure user._id exists in the data you retrieve
-    };
-
-    const moveToAddExpense = () => {
-        navigation.navigate('AddExpense', { groupDetails })
-    }
-
-    useEffect(() => {
-        getGroupDetails();
-    }, []);
-
-    useEffect(() => {
-        if (groupDetails) {
-            getUserId();
-        }
-    }, [groupDetails]);
-
-    useEffect(() => {
-        getAllExpensesOfUser()
-    }, [userId])
-
-    useEffect(() => {
-        console.log(JSON.stringify(userExpenses, null, 2))
-    }, [userExpenses])
-
-    if (!activeGroupId && !groupDetails) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size='large' color='#0396FF' />
-            </View>
-        );
-    }
-
+  if (!activeGroupId && !groupDetails) {
     return (
-        <SafeAreaView style={{ marginTop: 45 }}>
-            {groupDetails ? ( // Only render if groupDetails is truthy (not undefined or null)
-                <View>
-                    <View style={styles.topBar}>
-                        <View style={styles.backButton}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                                <Ionicons name="chevron-back-sharp" size={24} color="#000000" />
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.groupTitleContainer}>
-                            <Text style={styles.groupTitle}>{groupDetails.groupName}</Text>
-                        </View>
-
-                        <TouchableOpacity onPress={moveToAddExpense}>
-                            <View style={styles.moreInfoContainer}>
-                                <Ionicons name='add' size={24} color='black' />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>Invite your friends: </Text>
-                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#0396FF' }}>{groupInviteId}</Text>
-                    </View>
-
-                    <View>
-                        <ScrollView>
-                            <Text>{JSON.stringify(userExpenses, null, 2)}</Text>
-                        </ScrollView>
-                    </View>
-                </View>
-            ) : (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <ActivityIndicator size='large' color='#0396FF' />
-                </View>
-            )}
-        </SafeAreaView>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color='#0396FF' />
+      </View>
     );
-}
+  }
+
+  return (
+    <Tab.Navigator
+      initialRouteName='Active'
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Active') {
+            iconName = focused ? 'ios-cash' : 'ios-cash-outline';
+          } else if (route.name === 'Settled') {
+            iconName = focused
+              ? 'checkmark-circle'
+              : 'checkmark-circle-outline';
+          }
+
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#0396FF',
+        tabBarInactiveTintColor: '#939393',
+        header: ({ navigation, route, options }) => (
+          <CustomHeader
+            navigation={navigation}
+            route={route}
+            options={options}
+            groupName={groupName}
+            groupDetails={groupDetails}
+            activeGroup={activeGroupId}
+          />
+        ),
+      })}
+    >
+      <Tab.Screen
+        name='Active'
+        component={() => <ActiveExpense activeExpenses={activeExpenses} />}
+        options={{
+          title: 'Active Expenses',
+          headerTitleStyle: { color: 'white' }, // Add any additional styles
+        }}
+      />
+      <Tab.Screen
+        name='Settled'
+        component={() => <SettledExpense settledExpenses={settledExpenses} />}
+        options={{
+          title: 'Settled Expenses',
+          headerTitleStyle: { color: 'white' }, // Add any additional styles
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
-    topBar: {
-        flexDirection: 'row',
-    },
-    backButton: {
-        paddingLeft: 20,
-    },
-    groupTitleContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-    },
-    groupTitle: {
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    moreInfoContainer: {
-        paddingRight: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+  topBar: {
+    flexDirection: 'row',
+  },
+  backButton: {
+    paddingLeft: 20,
+  },
+  groupTitleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  groupTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  moreInfoContainer: {
+    paddingRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
