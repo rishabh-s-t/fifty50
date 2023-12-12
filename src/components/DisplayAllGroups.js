@@ -13,31 +13,34 @@ export default DisplayAllGroups = ({ navigation, groups }) => {
   const [activeGroupId, setActiveGroupId] = useState();
 
   useEffect(() => {
-
-  }, [activeGroupId])
+    console.log(JSON.stringify(groups, null, 2));
+  }, [activeGroupId]);
 
   if (!groups) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size='large' color='#0000ff' />
+        <ActivityIndicator size='large' color='#0396FF' />
       </View>
     );
   }
   return (
-    <View style={{ flexDirection: 'row', gap: 5 }}>
+    <View style={styles.container}>
       {groups.map((group, index) => (
-        <TouchableOpacity key={index} onPress={() => {
-          setActiveGroupId(groups[index]._id);
-          navigation.navigate('ActiveGroup', { activeGroup: groups[index]._id })
-        }}>
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            setActiveGroupId(groups[index]._id);
+            navigation.navigate('ActiveGroup', {
+              activeGroup: groups[index]._id,
+            });
+          }}
+        >
           <View style={styles.groupsContainer}>
             <View style={styles.groupContainer}>
               <View style={styles.groupMetaContainer}>
-                <Text style={styles.groupTitle}>
-                  {group.groupName}
-                </Text>
+                <Text style={styles.groupTitle}>{group.groupName}</Text>
                 <Text style={{ fontSize: 16, color: '#0396FF' }}>
-                  {group.numberOfBills} Bills
+                  {group.totalExpenses} Bills
                 </Text>
 
                 <View
@@ -73,11 +76,16 @@ export default DisplayAllGroups = ({ navigation, groups }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: 352,
+    gap: 5,
+  },
   groupsContainer: {},
   groupContainer: {
+    width: '100%',
     backgroundColor: '#FFFFFF',
-    height: 180,
-    width: 200,
+    height: 120,
     borderColor: '#E6E6E6',
     borderRadius: 20,
     borderWidth: 3,

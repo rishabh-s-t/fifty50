@@ -27,24 +27,24 @@ export default Home = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
   const [groupDetails, setGroupDetails] = useState();
   const [userAvatarState, setUserAvatarState] = useState(0);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   const getUserDetails = async () => {
     let user = await getAuthFromLocalStorage();
     user = JSON.parse(user);
-    const userId = user.user._id
+    const userId = user.user._id;
 
-    const getUserDetailsURL = `http://${ip}/api/v1/user/${userId}`
+    const getUserDetailsURL = `http://${ip}/api/v1/user/${userId}`;
 
-    const updatedUserDetails = await axios.get(getUserDetailsURL)
-    // console.log(JSON.stringify(updatedUserDetails.data, null, 2))
+    const updatedUserDetails = await axios.get(getUserDetailsURL);
+    console.log(JSON.stringify(updatedUserDetails.data, null, 2));
     setUserDetails(updatedUserDetails.data);
   };
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getUserDetails()
+    getUserDetails();
   }, [isFocused]);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default Home = ({ navigation }) => {
   useEffect(() => {
     if (userDetails) {
       getAllUserGroups();
-      if (userDetails.userAvatar) setUserAvatarState(userDetails.userAvatar)
+      if (userDetails.userAvatar) setUserAvatarState(userDetails.userAvatar);
     }
   }, [userDetails]);
 
@@ -102,7 +102,7 @@ export default Home = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ marginTop: 45, }}>
+    <SafeAreaView style={{ marginTop: 45 }}>
       <ScrollView>
         {/* Top bar - User Account Touchable (later) |
                       Home Screen |
@@ -132,27 +132,6 @@ export default Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* To Pay/Receive */}
-        <View style={styles.myGroupsContainer}>
-          <View style={{ marginLeft: '5%' }}>
-            <Text style={styles.myGroupsTitle}>TODO</Text>
-          </View>
-
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-            }}
-          >
-            <Text style={styles.viewGroupsTitle}>Todo</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.userExpenseContainer}></View>
-        </View>
-
         {/* Display groups */}
         <View style={styles.myGroupsContainer}>
           <View style={{ marginLeft: '5%' }}>
@@ -176,34 +155,15 @@ export default Home = ({ navigation }) => {
             <DisplayAllGroups navigation={navigation} groups={groupDetails} />
           </ScrollView>
         </View>
-
-        <View style={styles.myGroupsContainer}>
-          <View style={{ marginLeft: '5%' }}>
-            <Text style={styles.myGroupsTitle}>Groups to pay</Text>
-          </View>
-
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-            }}
-          >
-            <Text style={styles.viewGroupsTitle}>{`View All >>`}</Text>
-          </TouchableOpacity>
-        </View>
-        {/* Expenses are displayed here */}
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.expenseContainer}></View>
-        </View>
       </ScrollView>
 
       <Modal
         isVisible={showModal}
         onBackdropPress={() => setShowModal(false)}
-        animationIn={"slideInUp"}
-        animationOut={"slideOutDown"}
-        onBackButtonPress={() => setShowModal(false)}>
+        animationIn={'slideInUp'}
+        animationOut={'slideOutDown'}
+        onBackButtonPress={() => setShowModal(false)}
+      >
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.button} onPress={moveToCreateGroup}>
             <Text style={styles.buttonText}>Create Group</Text>
@@ -275,8 +235,9 @@ const styles = StyleSheet.create({
     color: '#808080',
   },
   groupsContainer: {
+    flex: 1,
+    height: '100%',
     marginTop: 20,
-    height: 185,
     width: '90%',
   },
   expenseContainer: {
