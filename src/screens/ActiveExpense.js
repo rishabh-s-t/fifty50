@@ -1,8 +1,14 @@
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import ExpenseDisplay from '../components/ExpenseDisplay';
 
-const ActiveExpense = ({ activeExpenses }) => {
+const ActiveExpense = ({ navigation, activeExpenses }) => {
   // console.log(`type of active expense: ${typeof activeExpenses}`);
   // console.log(`ActiveExpenses in active expense screen: ${JSON.stringify(activeExpenses, null, 2)}`);
 
@@ -14,11 +20,23 @@ const ActiveExpense = ({ activeExpenses }) => {
     );
   }
 
+  if (activeExpenses.length === 0) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ color: '#939393' }}>No active expenses</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView style={{ marginTop: 10, marginBottom: 10 }}>
       <View style={{ flex: 1, alignItems: 'center', gap: 15 }}>
         {activeExpenses.map((expense, index) => (
-          <ExpenseDisplay expense={expense} key={index} />
+          <ExpenseDisplay
+            navigation={navigation}
+            expense={expense}
+            key={index}
+          />
         ))}
       </View>
     </ScrollView>

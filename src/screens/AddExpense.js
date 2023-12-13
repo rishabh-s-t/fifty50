@@ -58,9 +58,9 @@ export default AddExpense = ({ navigation, route }) => {
 
     let postExpenseEndpoint = `http://${ip}/api/v1/expense`;
 
-    console.log(
-      `endpoint - ${postExpenseEndpoint}\npayload  ${JSON.stringify(payload)}`
-    );
+    // console.log(
+    //   `endpoint - ${postExpenseEndpoint}\npayload  ${JSON.stringify(payload)}`
+    // );
 
     await axios
       .post(postExpenseEndpoint, payload)

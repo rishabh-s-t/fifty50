@@ -12,6 +12,7 @@ import AddUserToGroup from './src/screens/AddUserToGroup';
 import AddExpense from './src/screens/AddExpense.js';
 import UserDetails from './src/screens/UserDetails.js';
 import ActiveGroup from './src/screens/ActiveGroup';
+import Expense from './src/screens/Expense';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -76,6 +77,12 @@ export default function App() {
           <Stack.Screen
             name='AddExpense'
             component={AddExpense}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='Expense'
+            component={Expense}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

@@ -99,8 +99,6 @@ export default ActiveGroup = ({ navigation, route }) => {
               ? 'checkmark-circle'
               : 'checkmark-circle-outline';
           }
-
-          // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#0396FF',
@@ -119,7 +117,12 @@ export default ActiveGroup = ({ navigation, route }) => {
     >
       <Tab.Screen
         name='Active'
-        children={() => <ActiveExpense activeExpenses={activeExpenses} />}
+        children={() => (
+          <ActiveExpense
+            navigation={navigation}
+            activeExpenses={activeExpenses}
+          />
+        )}
         options={{
           title: 'Active Expenses',
           headerTitleStyle: { color: 'white' }, // Add any additional styles
@@ -127,7 +130,12 @@ export default ActiveGroup = ({ navigation, route }) => {
       />
       <Tab.Screen
         name='Settled'
-        children={() => <SettledExpense settledExpenses={settledExpenses} />}
+        children={() => (
+          <SettledExpense
+            navigation={navigation}
+            settledExpenses={settledExpenses}
+          />
+        )}
         options={{
           title: 'Settled Expenses',
           headerTitleStyle: { color: 'white' }, // Add any additional styles

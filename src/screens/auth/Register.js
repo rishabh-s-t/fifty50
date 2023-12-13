@@ -52,7 +52,7 @@ export default Register = ({ navigation }) => {
         .then((response) => {
           Alert.alert(response.data.message);
           navigation.navigate('Login');
-          console.log(response.data.message);
+          // console.log(response.data.message);
         })
         .catch((error) => {
           Alert.alert(error.message);

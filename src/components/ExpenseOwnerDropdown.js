@@ -32,7 +32,7 @@ export default ExpenseOwnerDropdown = ({ users, setPaidBy }) => {
         data={userDetails}
         onSelect={(selectedItem, index) => {
           setPaidBy(selectedItem.id);
-          console.log(selectedItem.id, index);
+          // console.log(selectedItem.id, index);
         }}
         buttonStyle={styles.dropdownBtnStyle}
         renderCustomizedButtonChild={(selectedItem, index) => {

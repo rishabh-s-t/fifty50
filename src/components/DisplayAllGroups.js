@@ -13,7 +13,7 @@ export default DisplayAllGroups = ({ navigation, groups }) => {
   const [activeGroupId, setActiveGroupId] = useState();
 
   useEffect(() => {
-    console.log(JSON.stringify(groups, null, 2));
+    // console.log(JSON.stringify(groups, null, 2));
   }, [activeGroupId]);
 
   if (!groups) {
