@@ -1,17 +1,47 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import React from 'react';
-import { useRoute } from '@react-navigation/native';
+import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 
 const Expense = () => {
-  const route = useRoute();
-  const { navigation, expense } = route.params;
-  console.log(
-    `inside the expense component: ${JSON.stringify(expense, null, 2)}`
-  );
   return (
-    <View>
-      <Text>{JSON.stringify(expense, null, 2)}</Text>
-    </View>
+    <SafeAreaView>
+      <View style={{ flexDirection: 'row' }}>
+        <View
+          style={{
+            width: '33%',
+            paddingHorizontal: 15,
+          }}
+        >
+          <Ionicons name='chevron-back' size={24} color='black' />
+        </View>
+
+        <View
+          style={{
+            width: '33%',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ fontSize: 20 }}>Details</Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '34%',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            paddingHorizontal: 15,
+          }}
+        >
+          <Feather name='edit' size={22} color='black' />
+          <MaterialIcons name='delete' size={22} color='black' />
+        </View>
+      </View>
+
+      <View>
+        <Text>jsadjsad</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
