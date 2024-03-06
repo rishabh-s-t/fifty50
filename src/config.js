@@ -1,4 +1,4 @@
-const ip = '10.160.65.64:8080';
+const ip = '10.160.64.108:8080';
 
 const groupAvatarMap = ['#0396FF', '#EE6B8D', '#7E8EAA', '#F2E86D', '#5BDA8C'];
 

@@ -1,46 +1,18 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
+import { avatarArray, expenseAvatar, ip } from '../config';
+import axios from 'axios';
+import DisplayIndividualMember from '../components/DisplayIndividualMember';
 
 const Expense = () => {
+  const route = useRoute();
+  const { navigation, expense } = route.params;
+
   return (
     <SafeAreaView>
-      <View style={{ flexDirection: 'row' }}>
-        <View
-          style={{
-            width: '33%',
-            paddingHorizontal: 15,
-          }}
-        >
-          <Ionicons name='chevron-back' size={24} color='black' />
-        </View>
-
-        <View
-          style={{
-            width: '33%',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 20 }}>Details</Text>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '34%',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            paddingHorizontal: 15,
-          }}
-        >
-          <Feather name='edit' size={22} color='black' />
-          <MaterialIcons name='delete' size={22} color='black' />
-        </View>
-      </View>
-
-      <View>
-        <Text>jsadjsad</Text>
-      </View>
+      <Text style={{ margin: 10 }}>{JSON.stringify(expense, null, 2)}</Text>
     </SafeAreaView>
   );
 };
