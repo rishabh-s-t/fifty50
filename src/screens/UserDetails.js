@@ -28,25 +28,48 @@ const UserDetails = ({ navigation, route }) => {
     navigation.navigate('Login');
   };
 
+  const handleEdit = async () => {
+    navigation.navigate('EditUser', { user });
+  };
+
   return (
     <View>
       <View style={styles.topBarContainer}>
-        <TouchableOpacity style={styles.topBarColumn1}>
-          <Image
-            source={avatarArray[userDetails.userAvatar].src}
-            style={styles.userAvatar}
-          />
-        </TouchableOpacity>
+        <View style={styles.topBarColumn1}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name='chevron-back-sharp' size={24} color='#404040' />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.topBarColumn2}>
           <Text style={[styles.appTitle]}>Fifty50</Text>
         </View>
 
-        <View style={{ justifyContent: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Ionicons name='chevron-back-sharp' size={24} color='#404040' />
-          </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+        >
+          <View style={{ justifyContent: 'center' }}>
+            <TouchableOpacity onPress={handleEdit}>
+              <Feather name='edit' size={24} color='#404040' />
+            </TouchableOpacity>
+          </View>
         </View>
+      </View>
+
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: '5%',
+        }}
+      >
+        <Image
+          source={avatarArray[userDetails.userAvatar].src}
+          style={styles.userAvatar}
+        />
       </View>
 
       <View
@@ -66,14 +89,6 @@ const UserDetails = ({ navigation, route }) => {
       </View>
       <View style={{ marginLeft: '10%' }}>
         <Button buttonText={'logout'} handleSubmit={logoutUser} />
-      </View>
-
-      <View style={{ width: '90%' }}>
-        <Text>
-          *edit functionality is a work in progress for now. however, it's a
-          simple PUT request with new data, nothing complicated. but we are
-          really caught up with implementing other functionalities.
-        </Text>
       </View>
     </View>
   );
@@ -105,9 +120,9 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   userAvatar: {
-    height: 48,
-    width: 48,
-    borderRadius: 25,
+    height: 120,
+    width: 120,
+    borderRadius: 100,
   },
   appTitle: {
     fontWeight: 'bold',

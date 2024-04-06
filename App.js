@@ -13,6 +13,7 @@ import AddExpense from './src/screens/AddExpense.js';
 import UserDetails from './src/screens/UserDetails.js';
 import ActiveGroup from './src/screens/ActiveGroup';
 import Expense from './src/screens/Expense';
+import EditUser from './src/screens/EditUser';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -83,6 +84,12 @@ export default function App() {
           <Stack.Screen
             name='Expense'
             component={Expense}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name='EditUser'
+            component={EditUser}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
