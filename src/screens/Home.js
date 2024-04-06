@@ -82,6 +82,7 @@ export default Home = ({ navigation }) => {
   };
 
   const moveToCreateGroup = () => {
+    setShowModal(false);
     navigation.navigate('CreateGroup');
   };
 
@@ -90,6 +91,7 @@ export default Home = ({ navigation }) => {
   };
 
   const moveToJoinGroup = () => {
+    setShowModal(false);
     navigation.navigate('JoinGroup');
   };
 

@@ -7,7 +7,7 @@ export default DisplayIndividualMember = ({ member }) => {
 
   useEffect(() => {
     const getMember = async () => {
-      const userEndpoint = `htpp://${ip}/api/v1/user/`;
+      const userEndpoint = `http://${ip}/api/v1/user/`;
 
       try {
         const user = await axios.get(userEndpoint + member);

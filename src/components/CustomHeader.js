@@ -25,6 +25,7 @@ const CustomHeader = ({
   groupName,
   groupDetails,
   activeGroup,
+  inviteID,
 }) => {
   const moveToAddExpense = () => {
     navigation.navigate('AddExpense', { groupDetails, activeGroup });
@@ -42,7 +43,7 @@ const CustomHeader = ({
 
           <View style={styles.groupTitleContainer}>
             <Text style={styles.groupTitle}>
-              {groupName ? groupName : 'loading...'}
+              {groupName ? `${groupName}  (${inviteID})` : 'loading...'}
             </Text>
           </View>
 

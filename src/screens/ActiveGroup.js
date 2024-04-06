@@ -111,6 +111,7 @@ export default ActiveGroup = ({ navigation, route }) => {
             groupName={groupName}
             groupDetails={groupDetails}
             activeGroup={activeGroupId}
+            inviteID={groupInviteId}
           />
         ),
       })}

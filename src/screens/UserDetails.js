@@ -10,13 +10,16 @@ import React, { useEffect, useState } from 'react';
 import { avatarArray } from '../config';
 import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DisplayBox from '../components/DisplayBox';
+import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const UserDetails = ({ navigation, route }) => {
   const userDetails = route.params.userDetails;
   const [user, setUser] = useState(userDetails);
 
   useEffect(() => {
-    // console.log(user);
+    console.log(JSON.stringify(user, null, 2));
   }, [user]);
 
   const logoutUser = async () => {
@@ -26,7 +29,7 @@ const UserDetails = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ marginTop: 20 }}>
+    <View>
       <View style={styles.topBarContainer}>
         <TouchableOpacity style={styles.topBarColumn1}>
           <Image
@@ -39,31 +42,40 @@ const UserDetails = ({ navigation, route }) => {
           <Text style={[styles.appTitle]}>Fifty50</Text>
         </View>
 
-        <TouchableOpacity style={[styles.topBarColumn3]}>
-          <View style={styles.addGroupButton}>
-            <Text>JJ</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ marginLeft: '10%' }}>
-        <Button buttonText={'logout'} handleSubmit={logoutUser} />
+        <View style={{ justifyContent: 'center' }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name='chevron-back-sharp' size={24} color='#404040' />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          height: '50%',
         }}
       >
         <View>
-          <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
-            UNDER DEVELOPMENT
-          </Text>
+          <DisplayBox
+            name={user.userName}
+            email={user.userEmailID}
+            phone={user.userPhoneNumber}
+            upi={user.upiID}
+          />
         </View>
       </View>
-    </SafeAreaView>
+      <View style={{ marginLeft: '10%' }}>
+        <Button buttonText={'logout'} handleSubmit={logoutUser} />
+      </View>
+
+      <View style={{ width: '90%' }}>
+        <Text>
+          *edit functionality is a work in progress for now. however, it's a
+          simple PUT request with new data, nothing complicated. but we are
+          really caught up with implementing other functionalities.
+        </Text>
+      </View>
+    </View>
   );
 };
 
@@ -71,9 +83,9 @@ export default UserDetails;
 
 const styles = StyleSheet.create({
   topBarContainer: {
-    flex: 1,
+    marginTop: '10%',
+    marginBottom: '5%',
     flexDirection: 'row',
-    height: 60,
   },
   topBarColumn1: {
     alignItems: 'center',
