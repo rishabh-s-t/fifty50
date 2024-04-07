@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
@@ -20,32 +21,49 @@ import { getAuthFromLocalStorage } from '../services/getAuth';
 
 const Expense = () => {
   useEffect(() => {
-    console.log(JSON.stringify(expense, null, 2));
+    setOwnerID(expense.paidBy._id);
 
     const getUserTemp = async () => {
       let user = await getAuthFromLocalStorage();
       user = JSON.parse(user);
 
-      console.log('user->');
-      console.log(user);
-      setCurrentUser(user);
+      const userid = user.user._id;
+      setCurrentUserId(userid);
     };
 
     getUserTemp();
   }, []);
 
+  useEffect(() => {}, [currentUserId]);
+
   const handleMarkAsSettled = async () => {
-    const isOwner = 1;
+    try {
+      const response = await axios.post(
+        `http://${ip}/api/v1/expense/${expense._id}/settle/${currentUserId}`
+      );
+      Alert.alert('Settled Successfully!');
+      navigation.navigate('Home');
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error marking expense as settled:', error);
+      Alert.alert('failed. error in backend');
+    }
   };
 
   const route = useRoute();
   const { navigation, expense } = route.params;
-  const [currentUser, setCurrentUser] = useState();
+  const [ownerID, setOwnerID] = useState();
+  const [currentUserId, setCurrentUserId] = useState();
 
   return (
     <SafeAreaView>
       <View style={styles.topBarContainer}>
-        <TouchableOpacity style={styles.topBarColumn1}>
+        <TouchableOpacity
+          style={styles.topBarColumn1}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <Ionicons name='chevron-back-sharp' size={24} color='#404040' />
         </TouchableOpacity>
 
@@ -88,10 +106,14 @@ const Expense = () => {
             justifyContent: 'center',
           }}
         >
-          <Button
-            buttonText={'Mark as settled'}
-            handleSubmit={handleMarkAsSettled}
-          />
+          {expense.settledMembers.includes(currentUserId) ? (
+            <Text style={{ fontSize: 16, color: 'green' }}>Settled</Text>
+          ) : (
+            <Button
+              buttonText={'Mark as settled'}
+              handleSubmit={handleMarkAsSettled}
+            />
+          )}
         </View>
       </View>
 
