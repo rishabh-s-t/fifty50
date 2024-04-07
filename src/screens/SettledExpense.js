@@ -37,9 +37,13 @@ const SettledExpense = ({ navigation, settledExpenses }) => {
 
   return (
     <ScrollView style={{ marginTop: 10, marginBottom: 10 }}>
-      <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', marginVertical: '1%' }}>
         {settledExpenses.map((expense, index) => (
-          <ExpenseDisplay expense={expense} key={index} />
+          <ExpenseDisplay
+            navigation={navigation}
+            expense={expense}
+            key={index}
+          />
         ))}
       </View>
     </ScrollView>

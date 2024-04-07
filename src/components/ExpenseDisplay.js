@@ -1,19 +1,78 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { expenseAvatar, testExpense } from '../config';
+import { expenseAvatar, ip, testExpense } from '../config';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { getAuthFromLocalStorage } from '../services/getAuth';
+import axios from 'axios';
 
 const ExpenseDisplay = ({ navigation, expense }) => {
-  const [settled, setSettled] = useState('');
+  useEffect(() => {
+    setExpenseUser(expense.paidBy._id);
+    setExpenseId(expense._id);
+
+    const getOwnerName = async () => {
+      const owner = await axios.get(`http://${ip}/api/v1/user/${expenseUser}`);
+      // console.log('ownername -> ', owner.data.userName);
+      setOwnerName(owner.data.userName);
+    };
+
+    getOwnerName();
+
+    const getUserTemp = async () => {
+      let user = await getAuthFromLocalStorage();
+      user = JSON.parse(user);
+      const userid = user.user._id;
+      setCurrentUser(userid);
+    };
+
+    getUserTemp();
+  }, []);
 
   useEffect(() => {
-    // console.log(JSON.stringify(expense, null, 2));
+    // console.log('userid -> ', currentUser);
+    // console.log('expense -> ', expenseUser);
+    // console.log('owner -> ', ownerName);
+  }, [currentUser, expenseUser, ownerName]);
+
+  const [settled, setSettled] = useState('');
+  const [currentUser, setCurrentUser] = useState();
+  const [expenseUser, setExpenseUser] = useState();
+  const [ownerName, setOwnerName] = useState();
+  const [expenseId, setExpenseId] = useState();
+
+  useEffect(() => {
+    console.log(JSON.stringify(expense, null, 2));
     if (expense.isSettled === false) {
       setSettled('none');
     }
   }, [settled]);
 
-  // console.log('type of expense prop: ', typeof (expense))
+  const handleDelete = async () => {
+    console.log('here');
+    if (currentUser == expenseUser) {
+      const deleteRoute = `http://${ip}/api/v1/expense/${expenseId}`;
+
+      try {
+        const deletedExpense = await axios.delete(deleteRoute);
+        Alert.alert('Expense deleted successfully!');
+        navigation.navigate('Home');
+      } catch (error) {
+        Alert.alert('Error at backend. Please try again!');
+        navigation.navigate('Home');
+      }
+    } else {
+      Alert.alert(`Only ${ownerName} can delete the expense!`);
+    }
+  };
+
   const perPersonSplit = (
     expense.amount / expense.membersBalance.length
   ).toFixed(2);
@@ -60,6 +119,18 @@ const ExpenseDisplay = ({ navigation, expense }) => {
           </View>
         </View>
       </View>
+
+      <View
+        style={{
+          position: 'absolute',
+          right: 12,
+          bottom: 12,
+        }}
+      >
+        <TouchableOpacity onPress={handleDelete}>
+          <AntDesign name='delete' size={24} color='#8f8f8f' />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -74,6 +145,7 @@ const styles = StyleSheet.create({
     height: 142,
     borderRadius: 20,
     flexDirection: 'row',
+    marginBottom: '3%',
   },
   expenseMetaContainer: {
     flexDirection: 'row',

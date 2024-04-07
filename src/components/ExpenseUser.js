@@ -67,11 +67,11 @@ const ExpenseUser = ({ name, balance, id }) => {
       >
         {balance < 0 ? (
           <Text style={{ color: '#E54141', marginRight: '10%' }}>
-            Owes ${Math.abs(balance)}
+            Owes ₹{Math.abs(balance)}
           </Text>
         ) : (
           <Text style={{ color: '#397C37', marginRight: '10%' }}>
-            Paid ${balance}
+            Paid ₹{balance}
           </Text>
         )}
       </View>
