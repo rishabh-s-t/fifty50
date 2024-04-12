@@ -14,6 +14,9 @@ import UserDetails from './src/screens/UserDetails.js';
 import ActiveGroup from './src/screens/ActiveGroup';
 import Expense from './src/screens/Expense';
 import EditUser from './src/screens/EditUser';
+import { YellowBox } from 'react-native';
+
+console.disableYellowBox = true;
 
 export default function App() {
   const Stack = createNativeStackNavigator();
